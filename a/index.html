@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
 <meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:,">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>La Première, théâtre et lieu à vivre au Mans</title>
@@ -10,6 +11,15 @@
   <link rel="icon" href="assets/svg/monogramme.svg" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/bricolage-grotesque-latin-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/style.css">
+  <!-- Conduite lumière : le noir est fait avant la première image, sauf en mouvement réduit.
+       Filet de sécurité : si le module ne démarre pas, la salle se rallume d'elle-même. -->
+  <script>
+    (function (r) {
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      r.classList.add('conduite');
+      setTimeout(function () { if (!window.__salle) r.classList.remove('conduite'); }, 2500);
+    })(document.documentElement);
+  </script>
   <script type="module" src="assets/js/main.js"></script>
 </head>
 <body>
@@ -51,11 +61,11 @@
           </div>
         </div>
         <div class="noir" aria-hidden="true"></div>
+        <div class="faisceau" aria-hidden="true"></div>
         <div class="cartel">
           <p class="cartel__accroche">La Première, un lieu à vivre et à partager</p>
           <div class="cartel__actions">
             <a class="btn" href="#">Réserver</a>
-            <button class="btn btn--contour interrupteur" type="button" aria-pressed="false">Allumer la salle</button>
           </div>
           <p class="cartel__indice">Théâtre au Mans, ouverture en septembre 2027. Faites défiler pour lever le rideau.</p>
         </div>

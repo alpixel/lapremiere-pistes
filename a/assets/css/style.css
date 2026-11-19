@@ -205,16 +205,31 @@ svg { display: block; }
 }
 .plateau__inondation { position: absolute; inset: 0; background: var(--dominante); opacity: 0; }
 
-/* Le noir de salle : un dégradé radial percé à la position du faisceau (--bx, --by, --br) */
+/* Conduite lumière (classe « conduite » sur <html>, posée avant la première image, jamais en mouvement réduit).
+   Sans elle : rideau éclairé, titre entier. La position et la taille du faisceau (--bx, --by, --brx, --bry)
+   sont écrites par salle.js sur .salle__scene. */
+.salle__scene { --bx: 50%; --by: 50%; --brx: 1px; --bry: 1px; --lampe: 255, 206, 150; --gelatine: 255, 190, 205; }
+.pole-bien-etre .salle__scene { --lampe: 255, 236, 205; --gelatine: 190, 235, 255; }
+.noir, .faisceau, .poussiere { position: absolute; inset: 0; width: 100%; height: 100%; display: none; pointer-events: none; }
+.conduite .noir, .conduite .faisceau, .conduite .poussiere { display: block; }
+/* Le noir de salle : un voile percé à l'endroit du faisceau (ou de la rampe pendant les trois coups) */
 .noir {
-  position: absolute; inset: 0; display: none; pointer-events: none;
-  --bx: 62%; --by: 42%; --br: 26vmax;
-  background: radial-gradient(circle at var(--bx) var(--by),
-    rgba(0,0,0,0) 0, rgba(0,0,0,0.05) calc(var(--br) * 0.45), rgba(0,0,0,0.7) calc(var(--br) * 0.78), rgba(0,0,0,0.965) var(--br));
-  transition: opacity 0.7s;
+  background: radial-gradient(var(--brx) var(--bry) at var(--bx) var(--by),
+    rgba(0,0,0,0) 0, rgba(0,0,0,0.05) 45%, rgba(0,0,0,0.7) 78%, rgba(0,0,0,0.965) 100%);
 }
-.js .noir { display: block; }
-.salle-allumee .noir { opacity: 0; }
+/* La lumière elle-même : en mode « overlay » elle réchauffe le rideau sans jamais éclaircir le noir des lettres */
+.faisceau {
+  --chaud: 1; opacity: 0; mix-blend-mode: overlay;
+  background:
+    radial-gradient(var(--brx) var(--bry) at var(--bx) var(--by), rgba(var(--lampe), calc(0.95 * var(--chaud))) 0, rgba(var(--lampe), 0) 72%),
+    radial-gradient(var(--brx) var(--bry) at var(--bx) var(--by), rgba(var(--gelatine), calc(0.7 - 0.5 * var(--chaud))) 0, rgba(var(--gelatine), 0) 80%);
+}
+/* Les lettres du titre (découpées par salle.js) s'installent quand la lumière les atteint */
+.titre-geant .lettre { display: inline-block; }
+.conduite .titre-geant .lettre { opacity: 0; transform: translateY(0.07em); transition: opacity 0.45s ease-out, transform 0.8s var(--courbe); }
+.conduite .titre-geant .lettre.est-eclairee { opacity: 1; transform: none; }
+.rideau__pan--g { transform-origin: 0 50%; }
+.rideau__pan--d { transform-origin: 100% 50%; }
 
 .cartel {
   position: absolute; left: var(--marge); bottom: var(--marge); z-index: 2;
@@ -224,12 +239,7 @@ svg { display: block; }
 .cartel__accroche { font-size: clamp(1.5rem, 2.4vw, 2.1rem); line-height: 1.1; font-weight: 800; font-stretch: 85%; }
 .cartel__actions { display: flex; flex-wrap: wrap; gap: var(--e-2); margin-top: var(--e-3); }
 .cartel__indice { margin-top: var(--e-2); color: var(--gris); font-size: 1rem; }
-.interrupteur::before {
-  content: ""; width: 0.8em; height: 0.8em; border-radius: 50%;
-  border: 2px solid currentColor; background: transparent;
-}
-.interrupteur[aria-pressed="true"]::before { background: currentColor; }
-html:not(.js) .interrupteur, html:not(.scenique) .cartel__indice { display: none; }
+html:not(.scenique) .cartel__indice { display: none; }
 
 @media (max-width: 700px) {
   .rideau__titre { align-items: flex-start; padding-top: calc(var(--nav-h) + 1.5rem); }

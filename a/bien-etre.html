@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="fr">
 <head>
-<meta name="robots" content="noindex, nofollow">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Espace bien-être, La Première au Mans</title>
@@ -10,6 +9,15 @@
   <link rel="icon" href="assets/svg/monogramme.svg" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/bricolage-grotesque-latin-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/style.css">
+  <!-- Conduite lumière : le noir est fait avant la première image, sauf en mouvement réduit.
+       Filet de sécurité : si le module ne démarre pas, la salle se rallume d'elle-même. -->
+  <script>
+    (function (r) {
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      r.classList.add('conduite');
+      setTimeout(function () { if (!window.__salle) r.classList.remove('conduite'); }, 2500);
+    })(document.documentElement);
+  </script>
   <script type="module" src="assets/js/main.js"></script>
 </head>
 <!-- Une seule classe change la dominante (bleu) et le tempo (ralenti) -->
@@ -51,11 +59,11 @@
           </div>
         </div>
         <div class="noir" aria-hidden="true"></div>
+        <div class="faisceau" aria-hidden="true"></div>
         <div class="cartel">
           <p class="cartel__accroche">L'espace bien-être de La Première</p>
           <div class="cartel__actions">
             <a class="btn" href="#cabinet">Louer un cabinet</a>
-            <button class="btn btn--contour interrupteur" type="button" aria-pressed="false">Allumer la salle</button>
           </div>
           <p class="cartel__indice">Cinq cabinets de pratiques thérapeutiques. Faites défiler, sans vous presser.</p>
         </div>

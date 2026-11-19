@@ -1,10 +1,12 @@
 // Point d'entrée. Sans ce script la page reste complète : rideau fermé et éclairé, contenu lisible.
+// Le noir initial est posé par un court script en ligne dans <head> (classe « conduite »), avant la première image.
 import { initSalle } from './salle.js';
 import { initPoles } from './poles.js';
 
 const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-initSalle({ reduit });
+// Si la conduite lumière échoue, on rallume : la lecture ne dépend jamais de l'effet.
+try { initSalle({ reduit }); } catch (e) { document.documentElement.classList.remove('conduite', 'scenique'); console.error(e); }
 initPoles({ reduit });
 
 // Menu mobile
