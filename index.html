@@ -5,67 +5,47 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="data:,">
-<title>La Première — pistes graphiques pour le site</title>
+<title>La Première, pistes graphiques pour le site</title>
 <style>
-  :root{--rose:#F43D5C;--bleu:#159BB8;--vert:#78C943;--noir:#000;--blanc:#fff}
+  :root{--rose:#F43D5C;--bleu:#159BB8;--vert:#78C943}
   *{box-sizing:border-box}
-  body{margin:0;background:#fff;color:#000;font:18px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-  main{max-width:1100px;margin:0 auto;padding:48px 24px 72px}
-  .tag{display:inline-block;background:#000;color:#fff;font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px}
-  h1{font-size:clamp(34px,6vw,64px);line-height:1.02;margin:20px 0 16px;letter-spacing:-.02em}
-  .intro{max-width:46em;margin:0 0 40px}
-  .note{border-left:6px solid var(--rose);padding:4px 0 4px 16px;margin:0 0 48px;max-width:46em}
-  .grid{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
-  .card{display:flex;flex-direction:column;border:3px solid #000;padding:24px;min-height:340px}
-  .card h2{font-size:28px;line-height:1.1;margin:0 0 4px}
-  .card .sub{font-weight:700;margin:0 0 16px}
-  .card p{margin:0 0 20px}
-  .card .go{margin-top:auto;display:flex;flex-wrap:wrap;gap:12px}
-  .btn{display:inline-block;min-height:48px;padding:12px 20px;font-weight:700;text-decoration:none;color:#000;border:3px solid #000}
-  .btn:focus-visible{outline:4px solid #000;outline-offset:3px}
-  .a{background:var(--rose)} .b{background:var(--bleu)} .c{background:var(--vert)}
-  .btn.alt{background:#fff}
-  .btn:hover{background:#000;color:#fff}
-  footer{margin-top:56px;font-size:16px}
-  footer li{margin:6px 0}
+  body{margin:0;background:#fff;color:#111;font:18px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  main{max-width:720px;margin:0 auto;padding:64px 24px 80px}
+  h1{font-size:clamp(28px,5vw,40px);line-height:1.15;margin:0 0 20px;font-weight:700}
+  p{margin:0 0 16px}
+  .intro{color:#333;margin-bottom:40px}
+  ul{list-style:none;margin:0;padding:0}
+  li{border-left:8px solid var(--c);padding:2px 0 2px 18px;margin:0 0 32px}
+  li:nth-child(1){--c:var(--rose)} li:nth-child(2){--c:var(--bleu)} li:nth-child(3){--c:var(--vert)}
+  h2{font-size:22px;margin:0 0 4px}
+  li p{margin:0 0 8px}
+  a{color:#111;text-underline-offset:3px}
+  a:hover{background:#111;color:#fff;text-decoration:none}
+  a:focus-visible{outline:3px solid #111;outline-offset:2px}
+  .liens a{display:inline-block;padding:8px 0;margin-right:20px}
 </style>
 </head>
 <body>
 <main>
-  <span class="tag">Pistes de travail · provisoire</span>
-  <h1>La Première<br>trois pistes graphiques pour le site</h1>
-  <p class="intro">Trois façons de faire vivre l'identité visuelle de Tristan Albert à l'écran : monogramme version 2, palette B, option A (une couleur dominante, les deux autres en touches). Chaque piste est une page d'accueil et une page de l'espace bien-être, que l'on peut parcourir comme un vrai site.</p>
-  <p class="note"><strong>À savoir avant d'ouvrir.</strong> Les textes entre crochets (titres de spectacles, dates, praticiens) sont des emplacements, pas du contenu. Il n'y a pas encore de photos du lieu. Les polices sont des propositions. Le monogramme est une reconstruction à partir des planches, en attendant le fichier vectoriel. À regarder sur ordinateur de préférence (la souris fait partie de l'effet), puis sur téléphone.</p>
-
-  <div class="grid">
-    <section class="card">
-      <h2>A — Rideau</h2>
-      <p class="sub">Entrer dans la salle avant le spectacle</p>
-      <p>Une salle noire et un faisceau de projecteur qui révèle le titre. En faisant défiler, le rideau rose se lève et le monogramme envahit l'écran. Les sections sont des « actes ».</p>
-      <div class="go"><a class="btn a" href="a/index.html">Accueil</a><a class="btn alt" href="a/bien-etre.html">Espace bien-être</a></div>
-    </section>
-    <section class="card">
-      <h2>B — Empreinte</h2>
-      <p class="sub">Une matière imprimée, tamponnée</p>
-      <p>Papier grainé, couleurs en surimpression, tampons et affiches collées. Le monogramme se colore pièce par pièce selon l'activité. C'est la piste la plus légère.</p>
-      <div class="go"><a class="btn b" href="b/index.html">Accueil</a><a class="btn alt" href="b/bien-etre.html">Espace bien-être</a></div>
-    </section>
-    <section class="card">
-      <h2>C — Trois portes</h2>
-      <p class="sub">La couleur comme navigation</p>
-      <p>Trois bandes rose, bleu et vert se partagent l'écran ; celle qu'on choisit s'étire et devient la page. Le théâtre reste la dominante, les deux autres en touches.</p>
-      <div class="go"><a class="btn c" href="c/index.html">Accueil</a><a class="btn alt" href="c/bien-etre.html">Espace bien-être</a></div>
-    </section>
-  </div>
-
-  <footer>
-    <p><strong>Questions pour la discussion</strong></p>
-    <ul>
-      <li>Quelle ambiance retenez-vous : spectaculaire (A), artisanale (B), franche et lisible (C) ?</li>
-      <li>Un mélange vous parle-t-il (par exemple la structure de C avec la matière de B) ?</li>
-      <li>Le site doit-il d'abord faire réserver un spectacle, ou d'abord présenter le lieu ?</li>
-    </ul>
-  </footer>
+  <h1>La Première, pistes graphiques pour le site</h1>
+  <p class="intro">Trois pistes construites à partir de l'identité de Tristan Albert (monogramme, palette). Chacune montre l'accueil et la page de l'espace bien-être. Les textes entre crochets sont des emplacements et les polices des propositions. À ouvrir de préférence sur ordinateur.</p>
+  <ul>
+    <li>
+      <h2>A. Rideau</h2>
+      <p>Une salle noire éclairée par un projecteur. En défilant, le rideau se lève.</p>
+      <p class="liens"><a href="a/index.html">Accueil</a><a href="a/bien-etre.html">Espace bien-être</a></p>
+    </li>
+    <li>
+      <h2>B. Empreinte</h2>
+      <p>Un site qui ressemble à de l'imprimé : papier, encre, tampons.</p>
+      <p class="liens"><a href="b/index.html">Accueil</a><a href="b/bien-etre.html">Espace bien-être</a></p>
+    </li>
+    <li>
+      <h2>C. Trois portes</h2>
+      <p>Trois bandes de couleur, une par activité. Celle qu'on choisit prend tout l'écran.</p>
+      <p class="liens"><a href="c/index.html">Accueil</a><a href="c/bien-etre.html">Espace bien-être</a></p>
+    </li>
+  </ul>
 </main>
 </body>
 </html>
