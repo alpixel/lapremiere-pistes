@@ -11,6 +11,13 @@
 
 /* ---------- Tokens ---------- */
 :root {
+  /* Plis du rideau : les SEULES teintes hors palette B (à valider par Tristan Albert, voir NOTES.md).
+     Refus ? Remplacer ces deux valeurs par des aplats de la palette, ou par var(--rose) pour un pan uni. */
+  --pli-clair: color-mix(in srgb, var(--rose), var(--blanc) 24%);
+  --pli-sombre: color-mix(in srgb, var(--rose), var(--noir) 10%);
+  /* Demi-ton déduit du pli sombre (rose + 5 % de noir) : il suit la variable ci-dessus */
+  --pli-ombre: color-mix(in srgb, var(--rose), var(--pli-sombre));
+
   --rose: #F43D5C;
   --bleu: #159BB8;
   --vert: #78C943;
@@ -26,6 +33,7 @@
   /* Ressort : la bande dépasse légèrement sa cible puis revient */
   --elastique: linear(0, .009, .035 2.1%, .141 4.4%, .723 12.9%, .938 16.7%, 1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, .991, .977 51%, .974 53.8%, .975 57.1%, .997 69.8%, 1.003 76.9%, 1.004 83.8%, 1);
   --duree: .9s;
+  --embrasse: 21px; /* largeur du rideau ouvert, retenu le long de la couture */
 
   --dom: var(--rose);
   --rail-g: 0px;
@@ -37,6 +45,16 @@ body[data-pole="bleu"] { --dom: var(--bleu); --rail-g: var(--lisiere); --rail-d:
 @view-transition { navigation: auto; }
 ::view-transition-group(*) { animation-duration: .8s; animation-timing-function: cubic-bezier(.7, 0, .2, 1); }
 ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .3s; }
+/* Les bandes ne sont pas mises à l'échelle pendant le passage : leur image garde sa taille et la bande la
+   découvre en s'étirant, comme au survol. Sans cela le navigateur rétrécit le contenu (et les plis du rideau)
+   à la largeur de la bande en mouvement et laisse voir le fond en dessous. Chaque groupe porte l'aplat de
+   sa bande : là où une seule des deux images existe, on voit la couleur, pas le noir du fond. */
+::view-transition-group(porte-rose) { background: var(--rose); }
+::view-transition-group(porte-bleu) { background: var(--bleu); }
+::view-transition-group(porte-vert) { background: var(--vert); }
+::view-transition-old(porte-rose), ::view-transition-new(porte-rose),
+::view-transition-old(porte-bleu), ::view-transition-new(porte-bleu),
+::view-transition-old(porte-vert), ::view-transition-new(porte-vert) { width: 100%; height: 100%; object-fit: none; object-position: left top; }
 
 /* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
@@ -104,6 +122,8 @@ a { color: inherit; }
 [data-accent="rose"] .nav .n-rose { color: var(--rose); }
 [data-accent="bleu"] .nav .n-bleu { color: var(--bleu); }
 [data-accent="vert"] .nav .n-vert { color: var(--vert); }
+/* Tablette en portrait : sans cela « Réserver » sortait de l'écran de 800 à 890 px (lien secondaire, repris dans la page et le pied) */
+@media (max-width: 959px) { .nav li.nav__louer { display: none; } }
 
 /* ---------- Les trois portes ---------- */
 .portes {
@@ -143,6 +163,9 @@ a { color: inherit; }
 
 /* Bande fermée (desktop) : libellé vertical */
 @media (min-width: 800px) {
+  /* Sous 1120 px environ, les marges fixes pèsent plus lourd et le « E » final de « Théâtre » était rogné :
+     le titre se cale alors sur la largeur utile de la bande (sans effet à 1440 et au-delà). */
+  .porte--rose .porte__titre { font-size: min(28cqw, (100cqw - 2 * var(--s3)) * .2985); }
   .porte:not(.est-ouverte) .porte__lien { flex-direction: column; }
   .porte:not(.est-ouverte) .porte__nom { writing-mode: vertical-rl; font-size: clamp(22px, 2.4vw, 34px); font-stretch: 62%; font-weight: 900; letter-spacing: .02em; }
 }
@@ -170,6 +193,29 @@ a { color: inherit; }
 /* Lettres cinétiques (découpées par le JS, donc intactes sans JS) */
 .lettre { display: inline-block; transform: translateY(105%); transition: transform .7s var(--elastique); transition-delay: calc(var(--i) * 35ms + 120ms); }
 .est-ouverte .lettre, .est-vu .lettre { transform: none; }
+
+/* ---------- Le rideau du théâtre : un pan plissé sur la seule bande rose ---------- */
+/* Bande rose fermée = rideau tiré ; bande rose ouverte = rideau retenu en embrasse contre la couture.
+   Le rideau suit donc la mécanique des bandes (accueil et pages intérieures), sans JS et en mouvement réduit.
+   Les plis sont des aplats nets, jamais de dégradé ; ils se resserrent quand le pan s'ouvre (--periode).
+   Le pan ne capte jamais le pointeur : les bandes restent des liens. */
+@property --periode { syntax: "<length>"; inherits: false; initial-value: 28px; }
+.porte--rose::after {
+  --periode: 28px;
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: repeating-linear-gradient(270deg,
+    var(--pli-sombre) 0 calc(var(--periode) * .12),
+    var(--pli-clair) calc(var(--periode) * .12) calc(var(--periode) * .36),
+    var(--rose) calc(var(--periode) * .36) calc(var(--periode) * .72),
+    var(--pli-ombre) calc(var(--periode) * .72) var(--periode));
+  transition: left var(--duree) cubic-bezier(.7, 0, .2, 1), --periode var(--duree) cubic-bezier(.7, 0, .2, 1);
+}
+.porte--rose.est-ouverte::after { left: calc(100% - var(--embrasse)); --periode: 7px; }
+/* Ouverture, une fois par session (classes posées avant la première image par assets/js/ouverture.js) :
+   .rideau-ferme tient le pan fermé, son retrait lance la transition ci-dessus, un peu ralentie ;
+   .rideau-entree fait passer le pan devant le contenu de la bande le temps de la séquence. */
+.rideau-ferme .porte--rose.est-ouverte::after { left: 0; --periode: 28px; }
+.rideau-entree .porte--rose::after { z-index: 3; transition-duration: 1.1s; }
 
 /* ---------- Lisières : rappel permanent des deux autres portes ---------- */
 .lisiere {
@@ -279,7 +325,7 @@ body[data-pole="bleu"] .pied svg { --mp: var(--bleu); }
 
 /* ---------- Mobile : trois tiroirs horizontaux ---------- */
 @media (max-width: 799px) {
-  :root { --entete: 100px; --s6: 72px; --s5: 40px; --lisiere: 48px; }
+  :root { --entete: 100px; --s6: 72px; --s5: 40px; --lisiere: 48px; --embrasse: 14px; }
   body { font-size: 17px; padding-bottom: var(--lisiere); }
   .entete { flex-wrap: wrap; gap: 0; align-content: flex-start; padding: 0; }
   .logo { height: 56px; padding-left: 16px; font-size: 15px; }

@@ -174,19 +174,29 @@ svg { display: block; }
 /* Chaque pan porte le titre entier, large comme la scène : la fente du rideau le coupe en deux */
 .rideau__titre {
   position: absolute; top: 0; bottom: 0; left: 0; width: 100vw;
-  display: flex; align-items: center; padding-top: var(--nav-h);
+  display: flex; align-items: center; padding-top: var(--nav-h); padding-bottom: var(--bande);
 }
 .rideau__pan--d .rideau__titre { left: auto; right: 0; }
+
+/* Cadre de scène : la navigation en haut, le cartel en bande au pied du rideau (--bande), le titre entre les deux.
+   --corps      : corps du titre réglé sur la largeur (un par page, selon la longueur du mot le plus long) ;
+   --interligne : assez ouvert pour qu'un accent de capitale (È, Ê) tienne entre deux lignes sans toucher celle du dessus ;
+   --lignes     : nombre de lignes du titre ; --haut : marge au-dessus du titre quand il est calé en haut (mobile). */
+.salle__scene { --bande: 7.5rem; --corps: 30.5vw; --interligne: 0.86; --lignes: 2; --haut: 0px; }
+.pole-bien-etre .salle__scene { --corps: 27vw; }
 
 .titre-geant {
   width: 100%; margin-left: -0.04em;
   color: var(--noir);
-  font-size: 30.5vw; line-height: 0.76; font-weight: 800; font-stretch: 75%;
+  /* Le corps ne dépasse jamais ce que la hauteur du cadre permet (fenêtres larges et basses, petits téléphones) :
+     hauteur d'encre = (lignes - 1) interlignes + une capitale (0,66), plus 0,14 d'air en haut et en bas. */
+  font-size: min(var(--corps), calc((max(100svh, 34rem) - var(--nav-h) - var(--haut) - var(--bande)) / ((var(--lignes) - 1) * var(--interligne) + 0.94)));
+  line-height: var(--interligne); font-weight: 800; font-stretch: 75%;
   letter-spacing: -0.035em; text-transform: uppercase; white-space: nowrap;
 }
+@supports not (height: 100svh) { .titre-geant { font-size: var(--corps); } }
 .titre-geant span { display: block; }
 .titre-geant span span { display: inline; }
-.pole-bien-etre .titre-geant { font-size: 27vw; }
 
 /* Le plateau, derrière le rideau : monogramme qui grossit jusqu'à inonder l'écran */
 .plateau {
@@ -231,23 +241,35 @@ svg { display: block; }
 .rideau__pan--g { transform-origin: 0 50%; }
 .rideau__pan--d { transform-origin: 100% 50%; }
 
+/* Le cartel est le nez de scène (« avant-scène ») : une bande noire de bord à bord au pied du rideau.
+   Accroche et indice à gauche, bouton à droite. Sa hauteur est réservée par --bande : le titre ne passe jamais dessous. */
 .cartel {
-  position: absolute; left: var(--marge); bottom: var(--marge); z-index: 2;
-  max-width: 31rem; padding: var(--e-3);
-  background: var(--noir); border-left: 0.5rem solid var(--dominante);
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--e-4);
+  align-items: center; align-content: center;
+  min-height: var(--bande); padding: var(--e-2) var(--marge);
+  background: var(--noir);
 }
-.cartel__accroche { font-size: clamp(1.5rem, 2.4vw, 2.1rem); line-height: 1.1; font-weight: 800; font-stretch: 85%; }
-.cartel__actions { display: flex; flex-wrap: wrap; gap: var(--e-2); margin-top: var(--e-3); }
-.cartel__indice { margin-top: var(--e-2); color: var(--gris); font-size: 1rem; }
+.cartel__accroche { grid-column: 1; grid-row: 1; font-size: clamp(1.5rem, 2.4vw, 2.1rem); line-height: 1.1; font-weight: 800; font-stretch: 85%; }
+.cartel__indice { grid-column: 1; grid-row: 2; margin-top: 0.25rem; color: var(--gris); font-size: 1rem; }
+.cartel__actions { grid-column: 2; grid-row: 1 / span 2; display: flex; flex-wrap: wrap; gap: var(--e-2); }
+.cartel .btn { min-height: 3.5rem; padding-inline: 2.2rem; }
 html:not(.scenique) .cartel__indice { display: none; }
 
 @media (max-width: 700px) {
-  .rideau__titre { align-items: flex-start; padding-top: calc(var(--nav-h) + 1.5rem); }
-  .titre-geant, .pole-bien-etre .titre-geant { font-size: 49vw; line-height: 0.78; }
+  /* Mobile : titre calé en haut sur trois lignes, bande empilée (accroche, bouton pleine largeur, indice).
+     --bande est ici une réserve (la bande n'a pas de hauteur fixe) : elle borne le corps sur les petits écrans. */
+  .salle__scene { --bande: 14rem; --corps: 49vw; --lignes: 3; --haut: 1.5rem; }
+  .pole-bien-etre .salle__scene { --corps: 46vw; } /* « ESPACE » : six lettres doivent tenir dans la largeur */
+  .rideau__titre { align-items: flex-start; padding-top: calc(var(--nav-h) + var(--haut)); }
   .titre-geant span span { display: block; }
-  .cartel { right: var(--marge); padding: var(--e-2) var(--e-2) var(--e-2) var(--e-3); }
-  .cartel .btn { flex: 1 1 auto; }
+  .cartel { display: block; min-height: 0; padding: var(--e-3) var(--marge); }
+  .cartel__actions { margin-top: var(--e-3); }
+  .cartel__indice { margin-top: var(--e-2); }
+  .cartel .btn { flex: 1 1 auto; min-height: 3rem; padding-inline: 1.4rem; }
 }
+/* Très petits téléphones : l'accroche et l'indice passent sur une ligne de plus, la réserve suit. */
+@media (max-width: 374px) { .salle__scene { --bande: 17.5rem; } }
 
 /* ---------- Actes ---------- */
 .acte { position: relative; padding: var(--e-6) var(--marge); overflow: clip; /* clip et non hidden : hidden casserait les position: sticky */ }
