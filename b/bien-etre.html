@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta name="robots" content="noindex, nofollow">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Espace bien-être · La Première, Le Mans</title>
+  <meta name="description" content="L'espace bien-être de La Première : cinq cabinets de pratiques thérapeutiques au Mans, quartier Pontlieue.">
+  <link rel="preload" href="assets/fonts/anton-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" href="assets/svg/monogramme.svg" type="image/svg+xml">
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body class="page-bien-etre">
+  <a class="evitement" href="#contenu">Aller au contenu</a>
+
+  <!-- Mêmes filtres que l'accueil, réglés plus doux (déplacement plus faible) -->
+  <svg class="filtres" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="encre" x="-4%" y="-4%" width="108%" height="108%">
+        <feTurbulence type="fractalNoise" baseFrequency=".03" numOctaves="2" seed="4" result="bruit"/>
+        <feDisplacementMap in="SourceGraphic" in2="bruit" scale="3" xChannelSelector="R" yChannelSelector="G" result="bord"/>
+        <feTurbulence type="fractalNoise" baseFrequency=".75" numOctaves="1" seed="9" result="grain"/>
+        <feColorMatrix in="grain" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -9 7.6" result="manques"/>
+        <feComposite in="bord" in2="manques" operator="in"/>
+      </filter>
+      <filter id="dechire" x="-3%" y="-3%" width="106%" height="106%">
+        <feTurbulence type="fractalNoise" baseFrequency=".022 .05" numOctaves="2" seed="11" result="bruit"/>
+        <feDisplacementMap in="SourceGraphic" in2="bruit" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+      <symbol id="repere" viewBox="0 0 40 40"><circle cx="20" cy="20" r="9" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M20 0v40M0 20h40" stroke="currentColor" stroke-width="1.5"/></symbol>
+    </defs>
+  </svg>
+
+  <header class="nav">
+    <a class="nav__marque" href="index.html" aria-label="La Première, accueil">
+      <svg viewBox="0 0 711 773" aria-hidden="true"><use href="assets/svg/monogramme.svg#mono"/></svg>
+      <b>La Première</b>
+    </a>
+    <nav aria-label="Navigation principale">
+      <ul class="nav__liens" id="menu">
+        <li><a href="index.html#affiche">À l'affiche</a></li>
+        <li><a href="index.html#poles">Les pôles</a></li>
+        <li><a href="bien-etre.html" aria-current="page">Espace bien-être</a></li>
+        <li><a href="index.html#lieu">Le lieu</a></li>
+        <li><a href="index.html#adhesion">Adhérer</a></li>
+      </ul>
+    </nav>
+    <a class="btn" href="#" data-reserver>Réserver</a>
+    <button class="nav__menu" type="button" aria-expanded="false" aria-controls="menu"><span class="sr-only">Menu</span><i></i><i></i><i></i></button>
+  </header>
+
+  <main id="contenu">
+    <section class="hero hero--pole" aria-labelledby="titre-hero">
+      <p class="fil"><a href="index.html">La Première</a> / Pôle 2</p>
+      <h1 class="hero__titre" id="titre-hero">
+        <span class="hero__gros hero__gros--2">Espace</span>
+        <span class="hero__gros hero__gros--2">bien-être</span>
+        <span class="hero__accroche">un espace où l'on prend soin de soi</span>
+      </h1>
+
+      <!-- Option A du graphiste : monogramme complet, la pièce de l'activité prend sa couleur -->
+      <div class="hero__mono" aria-hidden="true">
+        <svg class="mono encre" viewBox="0 0 711 773"><use href="assets/svg/monogramme.svg#un"/><use href="assets/svg/monogramme.svg#socle"/></svg>
+        <svg class="mono accent encre surimpression" viewBox="0 0 711 773" data-empreinte style="--d:300ms"><use href="assets/svg/monogramme.svg#boucle"/></svg>
+      </div>
+
+      <div class="hero__bas aplat">
+        <p>Cinq cabinets de pratiques thérapeutiques, avec une salle d'attente indépendante, au sein de La Première. Ouverture prévue en septembre 2027, au Mans.</p>
+        <div class="hero__actions">
+          <a class="btn btn--dom" href="#demande">Louer un cabinet</a>
+          <a class="lien" href="#praticiens">Voir les praticiens</a>
+        </div>
+      </div>
+      <svg class="repere" style="left:10px;bottom:10px" aria-hidden="true"><use href="#repere"/></svg>
+    </section>
+
+    <section class="section" aria-labelledby="titre-pratiques">
+      <h2 class="section__titre" id="titre-pratiques">Pratiques <em>accueillies dans les cabinets</em></h2>
+      <ul class="pratiques">
+        <li>Kinésiologie <svg class="encre" viewBox="0 0 711 773" aria-hidden="true" data-empreinte><use href="assets/svg/monogramme.svg#boucle"/></svg></li>
+        <li>sophrologie <svg class="encre" viewBox="0 0 711 773" aria-hidden="true" data-empreinte><use href="assets/svg/monogramme.svg#boucle"/></svg></li>
+        <li>Coaching professionnel <svg class="encre" viewBox="0 0 711 773" aria-hidden="true" data-empreinte><use href="assets/svg/monogramme.svg#boucle"/></svg></li>
+        <li>shiatsu <svg class="encre" viewBox="0 0 711 773" aria-hidden="true" data-empreinte><use href="assets/svg/monogramme.svg#boucle"/></svg></li>
+        <li>Hypnothérapie</li>
+      </ul>
+    </section>
+
+    <section class="section sombre" id="praticiens" aria-labelledby="titre-praticiens">
+      <h2 class="section__titre" id="titre-praticiens">Praticiens <em>cinq cabinets, cinq emplacements</em></h2>
+      <p class="note"><b>Maquette</b>Les noms et les pratiques seront renseignés à l'installation des praticiens.</p>
+      <ul class="praticiens">
+        <li class="praticien" style="color:#000"><svg class="encre" viewBox="0 0 711 773" aria-hidden="true" data-empreinte><use href="assets/svg/monogramme.svg#boucle"/></svg><p class="praticien__no">01</p><h3>[Nom du praticien]</h3><p>[Pratique]</p><a class="lien" href="#">Contacter<span class="sr-only"> le praticien du cabinet 1</span></a></li>
+        <li class="praticien" style="color:#000"><svg class="encre" viewBox="0 0 711 773" aria-hidden="true" data-empreinte style="--d:120ms"><use href="assets/svg/monogramme.svg#boucle"/></svg><p class="praticien__no">02</p><h3>[Nom du praticien]</h3><p>[Pratique]</p><a class="lien" href="#">Contacter<span class="sr-only"> le praticien du cabinet 2</span></a></li>
+        <li class="praticien" style="color:#000"><svg class="encre" viewBox="0 0 711 773" aria-hidden="true" data-empreinte style="--d:240ms"><use href="assets/svg/monogramme.svg#boucle"/></svg><p class="praticien__no">03</p><h3>[Nom du praticien]</h3><p>[Pratique]</p><a class="lien" href="#">Contacter<span class="sr-only"> le praticien du cabinet 3</span></a></li>
+        <li class="praticien" style="color:#000"><svg class="encre" viewBox="0 0 711 773" aria-hidden="true" data-empreinte style="--d:360ms"><use href="assets/svg/monogramme.svg#boucle"/></svg><p class="praticien__no">04</p><h3>[Nom du praticien]</h3><p>[Pratique]</p><a class="lien" href="#">Contacter<span class="sr-only"> le praticien du cabinet 4</span></a></li>
+        <li class="praticien" style="color:#000"><svg class="encre" viewBox="0 0 711 773" aria-hidden="true" data-empreinte style="--d:480ms"><use href="assets/svg/monogramme.svg#boucle"/></svg><p class="praticien__no">05</p><h3>[Nom du praticien]</h3><p>[Pratique]</p><a class="lien" href="#">Contacter<span class="sr-only"> le praticien du cabinet 5</span></a></li>
+      </ul>
+    </section>
+
+    <section class="section demande" id="demande" aria-labelledby="titre-demande">
+      <div>
+        <h2 class="section__titre" id="titre-demande" style="font-size:clamp(3.4rem,9vw,9rem)">Louer un cabinet <em>demande de location</em></h2>
+        <p class="chapo">Vous êtes praticien et souhaitez exercer à La Première ? Décrivez votre pratique, l'association Acte Premier vous répondra.</p>
+      </div>
+      <form class="formulaire aplat aplat--dom" data-maquette novalidate>
+        <div class="champ"><label for="f-nom">Nom et prénom</label><input id="f-nom" name="nom" type="text" autocomplete="name"></div>
+        <div class="champ"><label for="f-mail">Adresse e-mail</label><input id="f-mail" name="email" type="email" autocomplete="email"></div>
+        <div class="champ"><label for="f-pratique">Votre pratique</label><input id="f-pratique" name="pratique" type="text" placeholder="[Pratique]"></div>
+        <div class="champ"><label for="f-message">Votre demande</label><textarea id="f-message" name="message"></textarea></div>
+        <button class="btn" type="submit">Envoyer la demande</button>
+        <p class="formulaire__etat" role="status">Formulaire en maquette : rien n'est envoyé.</p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="pied sombre">
+    <svg class="pied__mono" viewBox="0 0 711 773" aria-hidden="true"><use href="assets/svg/monogramme.svg#mono"/></svg>
+    <div class="pied__grille">
+      <div>
+        <p class="pied__nom">La Première</p>
+        <address>64 boulevard Jean-Jacques Rousseau<br>72100 Le Mans (quartier Pontlieue)</address>
+        <p>Ouverture prévue en septembre 2027.</p>
+      </div>
+      <div>
+        <h3>Le lieu</h3>
+        <ul>
+          <li><a href="index.html#affiche">Programmation</a></li>
+          <li><a href="bien-etre.html">Espace bien-être</a></li>
+          <li><a href="#">Hébergement</a></li>
+          <li><a href="#">Louer un espace</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Pratique</h3>
+        <ul>
+          <li><a href="#" data-reserver>Réserver (billetterie)</a></li>
+          <li><a href="index.html#adhesion">Adhérer</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Accès</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="pied__mentions"><span>La Première est un lieu porté par l'association Acte Premier.</span> <a class="lien" href="#">Mentions légales</a> <a class="lien" href="#">Confidentialité</a></p>
+  </footer>
+
+  <script type="module" src="assets/js/main.js"></script>
+</body>
+</html>

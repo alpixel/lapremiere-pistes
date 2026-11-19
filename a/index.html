@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta name="robots" content="noindex, nofollow">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>La Première, théâtre et lieu à vivre au Mans</title>
+  <meta name="description" content="La Première, un lieu à vivre et à partager : théâtre, espace bien-être et hébergement au Mans. Ouverture en septembre 2027.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="assets/svg/monogramme.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/bricolage-grotesque-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script type="module" src="assets/js/main.js"></script>
+</head>
+<body>
+  <a class="evitement" href="#affiche">Aller au contenu</a>
+
+  <header class="nav">
+    <a class="nav__logo" href="index.html" aria-label="La Première, accueil">
+      <svg class="mono" viewBox="0 0 710 772" aria-hidden="true"><use href="assets/svg/monogramme.svg#mono"/></svg>
+      <span>La Première</span>
+    </a>
+    <button class="nav__menu" type="button" aria-expanded="false" aria-controls="liens">Menu</button>
+    <nav class="nav__liens" id="liens" aria-label="Navigation principale">
+      <a href="#affiche">À l'affiche</a>
+      <a href="#poles">Les trois pôles</a>
+      <a href="#lieu">Le lieu</a>
+      <a href="#adhesion">Adhérer</a>
+    </nav>
+    <a class="btn" href="#">Réserver</a>
+  </header>
+
+  <main>
+    <!-- La salle : rideau fermé dans le noir, le faisceau révèle le titre -->
+    <section class="salle" aria-label="La Première">
+      <div class="salle__scene">
+        <div class="plateau" aria-hidden="true">
+          <svg class="mono plateau__mono" data-zoom="60" viewBox="0 0 710 772"><use href="assets/svg/monogramme.svg#mono"/></svg>
+          <div class="plateau__inondation"></div>
+        </div>
+        <div class="rideau">
+          <div class="rideau__pan rideau__pan--g">
+            <div class="rideau__titre">
+              <h1 class="titre-geant" aria-label="La Première"><span>La</span><span><span>Pre</span><span>mière</span></span></h1>
+            </div>
+          </div>
+          <div class="rideau__pan rideau__pan--d" aria-hidden="true">
+            <div class="rideau__titre">
+              <div class="titre-geant"><span>La</span><span><span>Pre</span><span>mière</span></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="noir" aria-hidden="true"></div>
+        <div class="cartel">
+          <p class="cartel__accroche">La Première, un lieu à vivre et à partager</p>
+          <div class="cartel__actions">
+            <a class="btn" href="#">Réserver</a>
+            <button class="btn btn--contour interrupteur" type="button" aria-pressed="false">Allumer la salle</button>
+          </div>
+          <p class="cartel__indice">Théâtre au Mans, ouverture en septembre 2027. Faites défiler pour lever le rideau.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="acte acte--dominante" id="affiche" aria-labelledby="t-affiche">
+      <p class="acte__numero">Acte I</p>
+      <h2 class="acte__titre" id="t-affiche"><span>À l'affiche</span></h2>
+      <ol class="affiches">
+        <li class="affiche">
+          <span class="affiche__rang" aria-hidden="true">01</span>
+          <h3 class="affiche__titre"><span class="vide">[Titre du spectacle]</span></h3>
+          <p class="affiche__meta"><span class="vide">[Date]</span></p>
+          <a class="btn" href="#">Réserver<span class="sr-only"> le spectacle 1</span></a>
+        </li>
+        <li class="affiche">
+          <span class="affiche__rang" aria-hidden="true">02</span>
+          <h3 class="affiche__titre"><span class="vide">[Titre du spectacle]</span></h3>
+          <p class="affiche__meta"><span class="vide">[Date]</span></p>
+          <a class="btn" href="#">Réserver<span class="sr-only"> le spectacle 2</span></a>
+        </li>
+        <li class="affiche">
+          <span class="affiche__rang" aria-hidden="true">03</span>
+          <h3 class="affiche__titre"><span class="vide">[Titre du spectacle]</span></h3>
+          <p class="affiche__meta"><span class="vide">[Date]</span></p>
+          <a class="btn" href="#">Réserver<span class="sr-only"> le spectacle 3</span></a>
+        </li>
+      </ol>
+      <a class="btn btn--noir" href="#">Toute la programmation</a>
+    </section>
+
+    <section class="acte poles" id="poles" data-pole="theatre" aria-labelledby="t-poles">
+      <div class="gel" aria-hidden="true"></div>
+      <p class="acte__numero">Acte II</p>
+      <h2 class="sr-only" id="t-poles">Les trois pôles</h2>
+      <div class="poles__grille">
+        <ul>
+          <li class="pole" data-pole="theatre">
+            <a href="#affiche">
+              <span class="pole__nom">Théâtre</span>
+              <span class="pole__texte">Une salle modulable pour les spectacles, les ateliers et les séminaires d'entreprise.</span>
+              <span class="pole__suite">Voir la programmation</span>
+            </a>
+          </li>
+          <li class="pole" data-pole="bien-etre">
+            <a href="bien-etre.html">
+              <span class="pole__nom">Bien-être</span>
+              <span class="pole__texte">Cinq cabinets de pratiques thérapeutiques, avec leur salle d'attente indépendante.</span>
+              <span class="pole__suite">Découvrir l'espace bien-être</span>
+            </a>
+          </li>
+          <li class="pole" data-pole="hebergement">
+            <a href="#">
+              <span class="pole__nom">Hébergement</span>
+              <span class="pole__texte">Un logement locatif meublé de 80 m², avec 3 chambres.</span>
+              <span class="pole__suite">Découvrir l'hébergement</span>
+            </a>
+          </li>
+        </ul>
+        <div class="poles__mono" aria-hidden="true">
+          <svg class="mono" viewBox="0 0 710 772"><use href="assets/svg/monogramme.svg#mono"/></svg>
+          <p><span>La Première</span><span data-libelle="theatre">Théâtre</span><span data-libelle="bien-etre">Espace bien-être</span><span data-libelle="hebergement">Hébergement</span></p>
+        </div>
+      </div>
+      <p class="poles__louer">Un séminaire, une répétition, un bureau ? <a class="lien" href="#">Louer un espace</a></p>
+    </section>
+
+    <section class="acte acte--blanc" id="lieu" aria-labelledby="t-lieu">
+      <p class="acte__numero">Acte III</p>
+      <h2 class="acte__titre" id="t-lieu"><span>Le lieu</span></h2>
+      <div class="lieu__grille">
+        <div class="lieu__intro">
+          <p>La Première est un lieu de rencontres, de découvertes et d'expériences. Un espace ouvert où la culture se partage, où l'on prend soin de soi et où l'on trouve le plaisir de se retrouver.</p>
+          <address>64 boulevard Jean-Jacques Rousseau<br>72100 Le Mans, quartier Pontlieue<br>Ouverture prévue en septembre 2027</address>
+        </div>
+        <ol class="lieu__liste">
+          <li><span>Une salle de théâtre modulable <small>Spectacles, ateliers, séminaires d'entreprise.</small></span></li>
+          <li><span>Cinq cabinets de pratiques thérapeutiques <small>Avec une salle d'attente indépendante.</small></span></li>
+          <li><span>Des espaces de travail pour les artistes en résidence</span></li>
+          <li><span>Des bureaux pour les structures associatives</span></li>
+          <li><span>Un espace commun <small>Cuisine, cour et terrasse.</small></span></li>
+          <li><span>Un logement locatif meublé de 80 m² <small>3 chambres.</small></span></li>
+          <li><span>Des garages</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="acte adhesion" id="adhesion" aria-labelledby="t-adhesion">
+      <p class="acte__numero">Acte IV</p>
+      <h2 class="acte__titre" id="t-adhesion"><span>Rejoindre l'association</span></h2>
+      <div class="adhesion__grille">
+        <p class="adhesion__prix">25 €</p>
+        <div class="adhesion__texte">
+          <p>L'adhésion à l'association Acte Premier, qui porte La Première, est à 25 €.</p>
+          <p>Elle donne droit à un tarif réduit selon les événements.</p>
+          <a class="btn" href="#">Adhérer</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pied">
+    <div class="pied__grille">
+      <div class="pied__marque">
+        <svg class="mono" viewBox="0 0 710 772" aria-hidden="true"><use href="assets/svg/monogramme.svg#mono"/></svg>
+        <address><strong>La Première</strong><br>64 boulevard Jean-Jacques Rousseau<br>72100 Le Mans</address>
+      </div>
+      <nav aria-label="Les pôles">
+        <h2>Les pôles</h2>
+        <ul>
+          <li><a href="#affiche">Théâtre</a></li>
+          <li><a href="bien-etre.html">Espace bien-être</a></li>
+          <li><a href="#">Hébergement</a></li>
+          <li><a href="#">Louer un espace</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Informations">
+        <h2>Informations</h2>
+        <ul>
+          <li><a href="#">Réserver</a></li>
+          <li><a href="#adhesion">Adhérer</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Mentions légales</a></li>
+        </ul>
+      </nav>
+    </div>
+    <p class="pied__mentions">La Première est un lieu porté par l'association Acte Premier. Site en cours de conception, réalisation ALPIXEL.</p>
+  </footer>
+</body>
+</html>

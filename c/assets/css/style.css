@@ -1,0 +1,348 @@
+/* La Première, piste C « Trois portes ».
+   Une seule idée : trois aplats qui se disputent l'écran. La couleur est la navigation. */
+
+@font-face {
+  font-family: "Archivo";
+  src: url("../fonts/archivo-variable-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+}
+
+/* ---------- Tokens ---------- */
+:root {
+  --rose: #F43D5C;
+  --bleu: #159BB8;
+  --vert: #78C943;
+  --noir: #000;
+  --blanc: #fff;
+
+  --filet: 4px;
+  --s1: 8px; --s2: 16px; --s3: 24px; --s4: 40px; --s5: 64px; --s6: 112px;
+  --marge: clamp(20px, 4vw, 56px);
+  --entete: 64px;
+  --lisiere: 56px;
+
+  /* Ressort : la bande dépasse légèrement sa cible puis revient */
+  --elastique: linear(0, .009, .035 2.1%, .141 4.4%, .723 12.9%, .938 16.7%, 1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, .991, .977 51%, .974 53.8%, .975 57.1%, .997 69.8%, 1.003 76.9%, 1.004 83.8%, 1);
+  --duree: .9s;
+
+  --dom: var(--rose);
+  --rail-g: 0px;
+  --rail-d: calc(var(--lisiere) * 2);
+}
+body[data-pole="bleu"] { --dom: var(--bleu); --rail-g: var(--lisiere); --rail-d: var(--lisiere); }
+
+/* Transition entre pages : chaque bande garde son nom, le navigateur étire la même matière */
+@view-transition { navigation: auto; }
+::view-transition-group(*) { animation-duration: .8s; animation-timing-function: cubic-bezier(.7, 0, .2, 1); }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .3s; }
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: var(--entete); }
+body {
+  margin: 0;
+  font-family: "Archivo", system-ui, sans-serif;
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--noir);
+  background: var(--blanc);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, p, ul, ol { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+a { color: inherit; }
+:focus-visible { outline: 4px solid var(--noir); outline-offset: 3px; box-shadow: 0 0 0 3px var(--blanc); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.evitement { position: fixed; left: 8px; top: -80px; z-index: 100; background: var(--blanc); padding: 12px 16px; font-weight: 700; }
+.evitement:focus { top: 8px; }
+
+.gros { font-stretch: 62%; font-weight: 900; text-transform: uppercase; line-height: .92; letter-spacing: -.01em; }
+.meta { font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 48px; padding: 10px 22px;
+  font: inherit; font-weight: 800; font-size: 16px; text-transform: uppercase; letter-spacing: .08em; text-decoration: none;
+  background: var(--noir); color: var(--blanc); border: var(--filet) solid var(--noir); border-radius: 0; cursor: pointer;
+  transition: background .2s, color .2s;
+}
+.btn:hover { background: var(--blanc); color: var(--noir); }
+.btn--creux { background: transparent; color: var(--noir); }
+.btn--creux:hover { background: var(--noir); color: var(--blanc); }
+.btn--blanc { background: var(--blanc); color: var(--noir); border-color: var(--blanc); }
+.btn--blanc:hover { background: var(--noir); color: var(--blanc); }
+
+/* ---------- En-tête (noir : la couleur sur noir passe AA) ---------- */
+.entete {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; gap: var(--s3);
+  height: var(--entete); padding: 0 var(--marge);
+  background: var(--noir); color: var(--blanc);
+  view-transition-name: entete;
+}
+.logo { display: flex; align-items: center; gap: 12px; min-height: 44px; text-decoration: none; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; font-size: 16px; }
+.logo svg { height: 40px; width: auto; fill: currentColor; }
+/* Option A de l'identité : monogramme complet, seule la forme de l'activité prend sa couleur */
+.logo path { transition: fill .3s; }
+/* Les formes du symbole lisent --m1 / --mp / --ml (les classes ne traversent pas <use>) */
+.mono path { transition: fill .3s; }
+[data-accent="rose"] .logo { --m1: var(--rose); }
+[data-accent="bleu"] .logo { --mp: var(--bleu); }
+[data-accent="vert"] .logo { --ml: var(--vert); }
+
+.nav { margin-left: auto; }
+.nav ul { display: flex; gap: 4px; }
+.nav a {
+  display: flex; align-items: center; min-height: 44px; padding: 0 12px;
+  font-size: 15px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; text-decoration: none;
+  transition: color .3s;
+}
+.nav a:hover { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 6px; }
+.nav a[aria-current] { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 6px; }
+[data-accent="rose"] .nav .n-rose { color: var(--rose); }
+[data-accent="bleu"] .nav .n-bleu { color: var(--bleu); }
+[data-accent="vert"] .nav .n-vert { color: var(--vert); }
+
+/* ---------- Les trois portes ---------- */
+.portes {
+  position: relative; z-index: 2;
+  display: grid;
+  grid-template-columns: var(--a) var(--b) var(--c);
+  height: calc(100svh - var(--entete)); min-height: 560px;
+  background: var(--noir);
+  transition: grid-template-columns var(--duree) var(--elastique);
+}
+.portes[data-ouvert="rose"] { --a: 65fr; --b: 17.5fr; --c: 17.5fr; }
+.portes[data-ouvert="bleu"] { --a: 17.5fr; --b: 65fr; --c: 17.5fr; }
+.portes[data-ouvert="vert"] { --a: 17.5fr; --b: 17.5fr; --c: 65fr; }
+
+.porte {
+  position: relative; overflow: hidden; min-width: 0; min-height: 0;
+  container-type: inline-size;
+  color: var(--noir);
+}
+.porte + .porte { border-left: var(--filet) solid var(--noir); }
+.porte--rose { background: var(--rose); view-transition-name: porte-rose; }
+.porte--bleu { background: var(--bleu); view-transition-name: porte-bleu; }
+.porte--vert { background: var(--vert); view-transition-name: porte-vert; }
+
+/* Le lien couvre toute la bande ; son libellé reste lisible sans survol */
+.porte__lien {
+  position: absolute; inset: 0; z-index: 1;
+  display: flex; align-items: flex-start; gap: 14px; padding: var(--s3);
+  text-decoration: none;
+}
+.porte__num { font-stretch: 62%; font-weight: 900; font-size: 22px; line-height: 1; padding: 6px 8px 4px; border: var(--filet) solid var(--noir); }
+.porte__nom { font-weight: 800; font-size: 20px; letter-spacing: .1em; text-transform: uppercase; line-height: 1.25; padding-top: 6px; }
+.porte__fleche { position: absolute; left: var(--s3); bottom: var(--s3); font-size: 40px; font-weight: 900; line-height: 1; transition: transform .3s; }
+.porte:hover .porte__fleche { transform: translateX(8px); }
+.porte.est-ouverte .porte__fleche { opacity: 0; }
+.porte__lien:focus-visible { outline-offset: -10px; }
+
+/* Bande fermée (desktop) : libellé vertical */
+@media (min-width: 800px) {
+  .porte:not(.est-ouverte) .porte__lien { flex-direction: column; }
+  .porte:not(.est-ouverte) .porte__nom { writing-mode: vertical-rl; font-size: clamp(22px, 2.4vw, 34px); font-stretch: 62%; font-weight: 900; letter-spacing: .02em; }
+}
+
+.porte__corps {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start;
+  padding: 88px var(--s3) var(--s2);
+  opacity: 0; visibility: hidden;
+  transition: opacity .25s, visibility 0s .25s;
+}
+.porte.est-ouverte .porte__corps { opacity: 1; visibility: visible; transition: opacity .4s .15s, visibility 0s; }
+.porte__corps > * { position: relative; }
+.porte__corps .btn, .porte__corps a { z-index: 2; }
+
+.porte__mono { position: absolute; top: var(--s3); right: var(--s3); width: 27cqw; max-height: 52%; fill: var(--noir); }
+.porte__accroche { font-size: clamp(26px, 4.3cqw, 46px); font-weight: 800; line-height: 1.05; max-width: 15em; letter-spacing: -.01em; }
+.porte__texte { max-width: 30em; margin-top: var(--s2); font-size: clamp(17px, 2cqw, 20px); font-weight: 500; }
+.porte__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: var(--s3); }
+/* Le titre est dimensionné en cqw : il grandit pendant que la bande s'étire */
+.porte__titre { font-size: calc(var(--t, 28) * 1cqw); margin-top: var(--s3); padding-top: .1em; white-space: nowrap; overflow: hidden; max-width: 100%; }
+.porte--bleu .porte__titre { --t: 22; }
+.porte--vert .porte__titre { --t: 17; }
+
+/* Lettres cinétiques (découpées par le JS, donc intactes sans JS) */
+.lettre { display: inline-block; transform: translateY(105%); transition: transform .7s var(--elastique); transition-delay: calc(var(--i) * 35ms + 120ms); }
+.est-ouverte .lettre, .est-vu .lettre { transform: none; }
+
+/* ---------- Lisières : rappel permanent des deux autres portes ---------- */
+.lisiere {
+  position: fixed; top: var(--entete); bottom: 0; z-index: 1; width: var(--lisiere);
+  display: flex; align-items: flex-start; justify-content: center; padding-top: var(--s3);
+  border-left: var(--filet) solid var(--noir);
+  writing-mode: vertical-rl; text-decoration: none; color: var(--noir);
+  font-stretch: 62%; font-weight: 900; font-size: 22px; text-transform: uppercase; letter-spacing: .04em;
+  transition: width .5s var(--elastique);
+}
+.lisiere:hover, .lisiere:focus-visible { width: calc(var(--lisiere) + 16px); }
+.lisiere--rose { background: var(--rose); left: 0; border-left: 0; border-right: var(--filet) solid var(--noir); }
+.lisiere--bleu { background: var(--bleu); right: var(--lisiere); }
+.lisiere--vert { background: var(--vert); right: 0; }
+.lisiere:focus-visible { outline-offset: -8px; }
+
+.page { position: relative; padding-left: var(--rail-g); padding-right: var(--rail-d); }
+.section { padding: var(--s6) var(--marge); border-top: var(--filet) solid var(--noir); }
+.section--dom { background: var(--dom); }
+.section--noir { background: var(--noir); color: var(--blanc); border-top: 0; }
+.section__tete { display: flex; flex-direction: column; gap: 10px; margin-bottom: var(--s5); border-bottom: var(--filet) solid currentColor; padding-bottom: var(--s2); }
+
+/* Titre qui s'étire avec le défilement : l'axe de largeur de la police passe de 62 à 125 */
+.etire {
+  --p: 0;
+  font-weight: 900; text-transform: uppercase; line-height: .92; letter-spacing: -.01em;
+  font-size: clamp(54px, 9.4vw, 170px);
+  font-variation-settings: "wdth" calc(62 + var(--p) * 63);
+  white-space: nowrap; overflow: hidden; padding-top: .1em;
+}
+
+/* ---------- Bandeau d'un seul mot ---------- */
+.bandeau { overflow: hidden; background: var(--noir); color: var(--dom); padding: 14px 0 8px; position: relative; z-index: 2; }
+.bandeau__piste { display: flex; width: max-content; animation: defile 22s linear infinite; }
+.bandeau span { font-size: clamp(40px, 6vw, 84px); padding-right: .6em; white-space: nowrap; }
+@keyframes defile { to { transform: translateX(-50%); } }
+
+/* ---------- À l'affiche ---------- */
+.affiche li { border-bottom: var(--filet) solid var(--noir); }
+.spectacle {
+  display: grid; grid-template-columns: 5.5rem 1fr auto; align-items: center; gap: var(--s3);
+  padding: var(--s3) var(--s2); position: relative;
+  background: linear-gradient(var(--dom), var(--dom)) no-repeat left / 0% 100%;
+  transition: background-size .6s cubic-bezier(.7, 0, .2, 1);
+}
+.spectacle:hover, .spectacle:focus-within { background-size: 100% 100%; }
+.spectacle__num { font-size: 56px; }
+.spectacle__titre { font-size: clamp(34px, 6vw, 96px); overflow-wrap: anywhere; }
+.spectacle__date { display: block; margin-top: 6px; }
+.gabarit { font-weight: 600; font-size: 15px; margin-top: var(--s3); border-left: var(--filet) solid var(--noir); padding-left: 12px; max-width: 40em; }
+
+/* ---------- Pôles ---------- */
+.poles { border-top: var(--filet) solid var(--noir); }
+.pole { display: grid; grid-template-columns: 5.5rem minmax(0, 1.1fr) minmax(0, 1fr) auto; gap: var(--s3); align-items: center; padding: var(--s3) 0; border-bottom: var(--filet) solid var(--noir); position: relative; text-decoration: none; }
+.pole__pastille { font-size: 40px; width: 72px; height: 72px; display: grid; place-items: center; border: var(--filet) solid var(--noir); }
+.pole__nom { font-size: clamp(34px, 5vw, 76px); }
+.pole__fleche { font-size: 40px; font-weight: 900; transition: transform .3s; }
+.pole:hover .pole__fleche { transform: translateX(10px); }
+.pole--rose .pole__pastille { background: var(--rose); }
+.pole--bleu .pole__pastille { background: var(--bleu); }
+.pole--vert .pole__pastille { background: var(--vert); }
+.pole--louer .pole__pastille { background: var(--blanc); }
+
+/* ---------- Le lieu ---------- */
+.lieu__intro { font-size: clamp(22px, 2.6vw, 34px); font-weight: 600; line-height: 1.25; max-width: 26em; margin-bottom: var(--s5); }
+.lieu__liste { counter-reset: lieu; columns: 2; column-gap: var(--s5); }
+.lieu__liste li { counter-increment: lieu; break-inside: avoid; display: flex; gap: var(--s2); padding: var(--s2) 0; border-top: 2px solid var(--blanc); font-size: 20px; font-weight: 500; }
+.lieu__liste li::before { content: counter(lieu, decimal-leading-zero); color: var(--dom); font-stretch: 62%; font-weight: 900; font-size: 28px; line-height: 1; min-width: 2ch; }
+.section--noir .etire { color: var(--dom); }
+
+/* ---------- Adhésion ---------- */
+.adhesion { display: grid; grid-template-columns: auto 1fr; gap: var(--s5); align-items: end; }
+.adhesion__prix { font-size: clamp(140px, 24vw, 400px); line-height: .8; white-space: nowrap; }
+.adhesion__texte { max-width: 30em; padding-bottom: var(--s2); }
+.adhesion__texte p { margin-bottom: var(--s3); font-weight: 500; }
+.adhesion__texte h3 { font-size: clamp(28px, 3vw, 44px); margin-bottom: var(--s2); }
+
+/* ---------- Page bien-être ---------- */
+.pratiques { display: flex; flex-wrap: wrap; gap: 12px; margin-top: var(--s4); }
+.pratiques li { border: var(--filet) solid var(--noir); padding: 8px 16px 6px; font-size: clamp(22px, 2.6vw, 36px); }
+.praticiens { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border: var(--filet) solid var(--noir); }
+.praticien { padding: var(--s3) var(--s2); min-height: 300px; display: flex; flex-direction: column; justify-content: space-between; transition: background .3s; }
+.praticien + .praticien { border-left: var(--filet) solid var(--noir); }
+.praticien:hover { background: var(--dom); }
+.praticien__num { font-size: 84px; }
+.praticien h3 { font-size: 20px; line-height: 1.2; font-weight: 800; }
+.cabinet { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--s5); }
+.cabinet__texte p { font-weight: 500; margin-top: var(--s2); max-width: 28em; }
+.formulaire { display: grid; gap: var(--s2); background: var(--blanc); border: var(--filet) solid var(--noir); padding: var(--s3); }
+.formulaire label { display: grid; gap: 6px; font-weight: 700; font-size: 16px; }
+.formulaire input, .formulaire select, .formulaire textarea { font: inherit; font-size: 17px; min-height: 48px; padding: 10px 12px; border: 3px solid var(--noir); border-radius: 0; background: var(--blanc); color: var(--noir); }
+.formulaire__note { font-size: 15px; font-weight: 600; }
+
+/* ---------- Pied de page ---------- */
+.pied { background: var(--noir); color: var(--blanc); padding: var(--s5) var(--marge) var(--s4); display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: var(--s4); position: relative; }
+.pied svg { height: 96px; fill: var(--blanc); margin-bottom: var(--s2); }
+body[data-pole="rose"] .pied svg { --m1: var(--rose); }
+body[data-pole="bleu"] .pied svg { --mp: var(--bleu); }
+.pied a { display: inline-flex; align-items: center; min-height: 44px; }
+.pied h2 { font-size: 15px; letter-spacing: .12em; text-transform: uppercase; color: var(--dom); margin-bottom: var(--s1); }
+.pied__mentions { grid-column: 1 / -1; border-top: 2px solid var(--blanc); padding-top: var(--s2); font-size: 15px; }
+
+/* ---------- Curseur (décoratif, jamais requis ; le curseur natif reste) ---------- */
+.curseur { position: fixed; left: 0; top: 0; z-index: 50; width: 76px; height: 76px; margin: -38px 0 0 -38px; border-radius: 50%; background: var(--noir); color: var(--blanc); display: grid; place-items: center; font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; pointer-events: none; opacity: 0; scale: .2; transition: opacity .2s, scale .35s var(--elastique); }
+.curseur.est-actif { opacity: 1; scale: 1; }
+@media (hover: none), (pointer: coarse) { .curseur { display: none; } }
+
+/* ---------- Mobile : trois tiroirs horizontaux ---------- */
+@media (max-width: 799px) {
+  :root { --entete: 100px; --s6: 72px; --s5: 40px; --lisiere: 48px; }
+  body { font-size: 17px; padding-bottom: var(--lisiere); }
+  .entete { flex-wrap: wrap; gap: 0; align-content: flex-start; padding: 0; }
+  .logo { height: 56px; padding-left: 16px; font-size: 15px; }
+  .logo svg { height: 34px; }
+  .entete > .btn { margin: 0 12px 0 auto; min-height: 44px; padding: 6px 16px; order: 2; }
+  .nav { order: 3; width: 100%; margin: 0; border-top: 2px solid var(--blanc); }
+  .nav ul { gap: 0; }
+  .nav li { flex: 1 1 auto; }
+  .nav li.nav__louer { display: none; }
+  .nav a { justify-content: center; padding: 0 6px; font-size: 13px; letter-spacing: .03em; white-space: nowrap; }
+
+  .portes { grid-template-columns: none; grid-template-rows: var(--a) var(--b) var(--c); transition-property: grid-template-rows; min-height: 520px; }
+  .portes[data-ouvert="rose"] { --a: 62fr; --b: 19fr; --c: 19fr; }
+  .portes[data-ouvert="bleu"] { --a: 15fr; --b: 70fr; --c: 15fr; }
+  .portes[data-ouvert="vert"] { --a: 15fr; --b: 15fr; --c: 70fr; }
+  .porte + .porte { border-left: 0; border-top: var(--filet) solid var(--noir); }
+  .porte__lien { padding: 14px 16px; align-items: center; }
+  .porte.est-ouverte .porte__lien { align-items: flex-start; }
+  .porte__num { font-size: 18px; }
+  .porte__nom { font-size: 17px; padding-top: 2px; }
+  .porte__fleche { left: auto; right: 16px; bottom: auto; top: 50%; translate: 0 -50%; font-size: 30px; }
+  .porte__corps { padding: 64px 16px 8px; }
+  .porte__mono { width: 20cqw; top: 14px; right: 16px; }
+  .porte__accroche { font-size: 27px; max-width: 11em; }
+  .porte__texte { font-size: 16px; margin-top: 10px; }
+  .porte__actions { margin-top: 14px; }
+  .porte__titre { margin-top: 10px; --t: 27.5; }
+  .porte--bleu .porte__titre { --t: 23.5; }
+  .porte--vert .porte__titre { --t: 16.4; }
+
+  .lisiere { top: auto; bottom: 0; width: 50%; height: var(--lisiere); writing-mode: horizontal-tb; align-items: center; padding: 0; font-size: 17px; border: 0; border-top: var(--filet) solid var(--noir); }
+  .lisiere:hover, .lisiere:focus-visible { width: 50%; }
+  .lisiere--rose, .lisiere--bleu { left: 0; right: auto; border-right: var(--filet) solid var(--noir); }
+  .lisiere--vert { right: 0; }
+  .page { padding: 0; }
+
+  .section__tete { gap: 6px; margin-bottom: var(--s4); }
+  .etire { font-size: 11vw; }
+  .spectacle { grid-template-columns: 1fr; gap: 10px; padding: var(--s3) 0; }
+  .spectacle__num { font-size: 34px; }
+  .spectacle .btn { justify-self: start; }
+  .pole { grid-template-columns: 56px 1fr auto; gap: 14px; }
+  .pole__pastille { width: 56px; height: 56px; font-size: 30px; }
+  .pole__desc { grid-column: 2 / -1; font-size: 16px; }
+  .pole__fleche { grid-row: 1; grid-column: 3; font-size: 30px; }
+  .lieu__liste { columns: 1; }
+  .lieu__liste li { font-size: 18px; }
+  .adhesion, .cabinet { grid-template-columns: 1fr; gap: var(--s3); }
+  .adhesion__prix { font-size: 46vw; }
+  .praticiens { grid-template-columns: 1fr; }
+  .praticien { min-height: 0; flex-direction: row; align-items: center; justify-content: flex-start; gap: var(--s3); padding: var(--s2); }
+  .praticien + .praticien { border-left: 0; border-top: var(--filet) solid var(--noir); }
+  .praticien__num { font-size: 56px; min-width: 1.4em; }
+  .pied { grid-template-columns: 1fr; }
+}
+
+/* ---------- Mouvement réduit : version statique complète ---------- */
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: .01ms !important; transition-delay: 0s !important; animation: none !important; }
+  .lettre { transform: none; }
+  .etire { --p: 0 !important; }
+  .bandeau__piste { width: auto; }
+  .curseur { display: none; }
+}
